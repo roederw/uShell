@@ -6,12 +6,12 @@ problems = json.loads(open("problems.json", "r").read())
 def api_get(endpoint):
     return requests.get("http://uhunt.felix-halim.net/api/" + endpoint).text.strip()
 
-
 def get_uid(username):
     return api_get("uname2uid/" + username)
 
 def _clean_sub(sub):
     verdicts = {
+        0  : "Compiling",
         10 : "Submission error",
         15 : "Can't be judged",
         20 : "In queue",
@@ -34,6 +34,6 @@ def _clean_sub(sub):
     return cleaned
 
 def submissions(uid, n):
-    subs = json.loads(api_get("subs-user-last/"+uid+"/"+str(n)))["subs"]
+    subs = reversed(json.loads(api_get("subs-user-last/"+uid+"/"+str(n)))["subs"])
 
     return map(_clean_sub, subs)
