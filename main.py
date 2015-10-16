@@ -1,5 +1,5 @@
-from uvaclient import uvaclient
+#!/usr/bin/env python
 
+from uvaclient import uvaclient
 u = uvaclient()
-u.login()
-u.submit("100", "100.cpp")
+u.submissions()

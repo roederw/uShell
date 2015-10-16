@@ -1,10 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 import secret
+import uvaapi as api
 
 BASE_URL   = "https://uva.onlinejudge.org/"
 LOGIN_URL  = "https://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login"
 SUBMIT_URL = BASE_URL + "index.php?option=com_onlinejudge&Itemid=25&page=save_submission"
+API_URL    = "http://uhunt.felix-halim.net/api/"
 
 def get_headers():
     headers = {
@@ -28,6 +30,7 @@ class uvaclient:
         self.session = requests.Session()
         self.username = secret.username
         self.password = secret.password
+        self.uid = api.get_uid(self.username)
 
     def _post(self, url, data, custom_headers=None, redirects=True):
         custom_headers = custom_headers or {}
@@ -65,3 +68,9 @@ class uvaclient:
             "category":  ""
         }
         self._post(SUBMIT_URL, data, {"Referer": SUBMIT_URL})
+
+    def submissions(self, n = 3):
+        resp = api.submissions(self.uid, n)
+
+        for i in resp:
+            print i["problem"]["title"] + " - " + i["verdict"] + " - " + i["runtime"]
