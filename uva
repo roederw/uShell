@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from uvaclient import uvaclient
 import sys
-import urllib2
+import requests
 import os
 
 class command():
@@ -26,10 +26,12 @@ def submit_command(client, args):
     print "Done!"
 
 def display_command(client, args):
-    response = urllib2.urlopen("https://uva.onlinejudge.org/external/" + str(int(args[0])/100) + "/" + args[0] + ".pdf")
-    file = open(args[0] + ".pdf", 'w')
-    file.write(response.read())
-    file.close()
+    url = "https://uva.onlinejudge.org/external/{0}/{1}.pdf"\
+            .format(int(args[0]) / 100, args[0])
+    resp = requests.get(url, stream=True)
+    with open(args[0] + ".pdf", "wb") as f:
+        for block in resp.iter_content(1024):
+            f.write(block)
     os.system("open " + args[0] + ".pdf")
 
 
