@@ -40,7 +40,10 @@ if __name__ == "__main__":
         "display": command(display_command, "Usage: uva problem <problem_number>")
     }
 
-    command = sys.argv[1]
+    if len(sys.argv) == 1:
+        command = ""
+    else:
+        command = sys.argv[1]
     sys.argv = sys.argv[2:]
 
     if command in commands:

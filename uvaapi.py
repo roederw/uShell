@@ -2,18 +2,20 @@ import requests
 import json
 import jsoncache
 
-problems = jsoncache.get("problems")
-
-def rebuild_problems():
-    p = json.loads(api_get("p"))
-    nd = {}
-    for i in p:
-        nd[i[0]] = {"problem_number": i[1], "title": i[2]}
-    return nd
-
 
 def api_get(endpoint):
     return requests.get("http://uhunt.felix-halim.net/api/" + endpoint).text.strip()
+
+def fetch_problems():
+    if not jsoncache.get("problems"):
+        p = json.loads(api_get("p"))
+        nd = {}
+        for i in p:
+            nd[i[0]] = {"problem_number": i[1], "title": i[2]}
+        jsoncache.put("problems", nd, 24)
+    return jsoncache.get("problems")
+
+problems = fetch_problems()
 
 def get_uid(username):
     return api_get("uname2uid/" + username)
@@ -46,7 +48,3 @@ def submissions(uid, n):
     subs = reversed(json.loads(api_get("subs-user-last/"+uid+"/"+str(n)))["subs"])
 
     return map(_clean_sub, subs)
-
-if not problems:
-    jsoncache.put("problems", problems, 24)
-    problems = jsoncache.get("problems")
