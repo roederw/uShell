@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import getpass
 import secret
 import uvaapi as api
 
@@ -29,8 +30,10 @@ class uvaclient:
     def __init__(self):
         self.session = requests.Session()
         self.username = secret.username
-        self.password = secret.password
         self.uid = api.get_uid(self.username)
+
+    def prompt_password(self):
+        return getpass.getpass("Password: ")
 
     def _post(self, url, data, custom_headers=None, redirects=True):
         custom_headers = custom_headers or {}
@@ -51,7 +54,7 @@ class uvaclient:
 
         d = {e['name']: e.get('value', '') for e in login_form.find_all("input", {'name': True})}
         d['username'] = self.username
-        d['passwd'] = self.password
+        d['passwd'] = self.prompt_password()
         return d
 
     def login(self):
