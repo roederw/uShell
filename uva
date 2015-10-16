@@ -34,12 +34,18 @@ def display_command(client, args):
             f.write(block)
     os.system("open " + args[0] + ".pdf")
 
+def print_commands(client, args):
+    print "Commands:"
+    for name in commands.keys():
+        if (name != "help"):
+            print "\t" + name + " - " + commands[name].h
 
 if __name__ == "__main__":
     commands = {
+        "help": command(print_commands, ""),
         "subs": command(sub_command, "Usage: uva subs [n]"),
         "submit": command(submit_command, "Usage: uva submit <problem_number> <language_option> <source_file>"),
-        "display": command(display_command, "Usage: uva problem <problem_number>")
+        "display": command(display_command, "Usage: uva display <problem_number>")   
     }
 
     if len(sys.argv) == 1:
@@ -53,6 +59,4 @@ if __name__ == "__main__":
         commands[command](u, sys.argv)
 
     else:
-        print "Commands:"
-        for name in commands.keys():
-            print "\t" + name + " - " + commands[name].h
+        print_commands()
