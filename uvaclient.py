@@ -61,11 +61,11 @@ class uvaclient:
         data = self._login_data()
         self._post(LOGIN_URL, data, {'Referer': BASE_URL}, False)
 
-    def submit(self, problemid, f):
+    def submit(self, problemid, language, f):
         data = {
             "localid":   problemid,
             "code":      open(f, "r").read(),
-            "language":  5, # c++11
+            "language":  language,
             "codeupl":   "",
             "problemid": "",
             "category":  ""
