@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import getpass
-import secret
+import settings
 import uvaapi as api
 
 BASE_URL   = "https://uva.onlinejudge.org/"
@@ -29,7 +29,7 @@ def merge_dicts(d1, d2):
 class uvaclient:
     def __init__(self):
         self.session = requests.Session()
-        self.username = secret.username
+        self.username = settings.username
         self.uid = api.get_uid(self.username)
 
     def prompt_password(self):
@@ -61,7 +61,7 @@ class uvaclient:
         data = self._login_data()
         self._post(LOGIN_URL, data, {'Referer': BASE_URL}, False)
 
-    def submit(self, problemid, language, f):
+    def submit(self, problemid, f, language = 5):
         data = {
             "localid":   problemid,
             "code":      open(f, "r").read(),
@@ -78,11 +78,11 @@ class uvaclient:
         for i in resp:
             print i["problem"]["title"] + " - " + i["verdict"] + " - " + i["runtime"]
 
-    def leaderboard(self, problem_number):
-        print "Problem " + str(problem_number) + ": " + api.get_problem_name(problem_number) 
-        resp = api.leaderboard(problem_number, 10)
+    def leaderboard(self, problem_number, n = 10):
+        print "Problem " + str(problem_number) + ": " + api.get_problem_name(problem_number)
+        resp = api.leaderboard(problem_number, n)
         for i in resp:
-            print "Rank: " + str(i['rank'])  + " User: " + i['uname'] 
+            print "Rank: " + str(i['rank'])  + " User: " + i['uname']
 
     def user_submissions_problem(self, user, problem_number):
         resp = api.user_submissions_problem(user, problem_number)

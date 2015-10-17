@@ -22,7 +22,7 @@ def submit_command(client, args):
     print "Logging in..."
     client.login()
     print "Submitting..."
-    client.submit(args[0], args[1], args[2])
+    client.submit(*args)
     print "Done!"
 
 def display_command(client, args):
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         "help": command(help_command, ""),
         "subs": command(sub_command, "Usage: uva subs [n]"),
         "submit": command(submit_command, "Usage: uva submit <problem_number> <language_option> <source_file>"),
-        "display": command(display_command, "Usage: uva display <problem_number>"), 
+        "display": command(display_command, "Usage: uva display <problem_number>"),
         "leaderboard": command(leaderboard_command, "Usage: leaderboard <problem_number>"),
         "userdata": command(user_submissions_problem, "Usage: userdata <user> <problem_number>")
     }

@@ -42,7 +42,7 @@ def _clean_sub(sub):
         80 : "Presentation Error",
         90 : "Accepted",
     }
-    
+
     language = {
         1 : "ANSI C",
         2 : "Java",
@@ -62,7 +62,6 @@ def _clean_sub(sub):
 
 def submissions(uid, n):
     subs = reversed(json.loads(api_get("subs-user-last/" + uid + "/"+str(n)))["subs"])
-
     return map(_clean_sub, subs)
 
 def leaderboard(problem_num, n):
