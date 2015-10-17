@@ -1,3 +1,2 @@
-secret.py
 *.pyc
 cache/*.json

@@ -61,7 +61,7 @@ class uvaclient:
         data = self._login_data()
         self._post(LOGIN_URL, data, {'Referer': BASE_URL}, False)
 
-    def submit(self, problemid, f, language = 5):
+    def submit(self, problemid, f, language = settings.language):
         data = {
             "localid":   problemid,
             "code":      open(f, "r").read(),
