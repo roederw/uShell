@@ -61,6 +61,12 @@ class uvaclient:
         data = self._login_data()
         self._post(LOGIN_URL, data, {'Referer': BASE_URL}, False)
 
+    def get_baseurl(self):
+            return BASE_URL
+
+    def get_problem_name(self, problem_num):
+        return api.get_problem_name(problem_num)
+
     def submit(self, problemid, f, language = settings.language):
         data = {
             "localid":   problemid,
@@ -76,12 +82,7 @@ class uvaclient:
         return api.submissions(self.uid, n)
 
     def leaderboard(self, problem_number, n = 10):
-        print "Problem " + str(problem_number) + ": " + api.get_problem_name(problem_number)
-        resp = api.leaderboard(problem_number, n)
-        for i in resp:
-            print "Rank: " + str(i['rank'])  + " User: " + i['uname']
+        return api.leaderboard(problem_number, n)
 
     def user_submissions_problem(self, user, problem_number):
-        resp = api.user_submissions_problem(user, problem_number)
-        for i in resp:
-            print "Submission ID: %-12s Verdict: %-20s Runtime: %-11s Language Used: %-10s" % (i["submission_id"], i["verdict"], i["runtime"], i["language"])
+        return api.user_submissions_problem(user, problem_number)

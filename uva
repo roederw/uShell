@@ -25,7 +25,7 @@ def submit_command(client, args):
     print "Done!"
 
 def display_command(client, args):
-    url = "https://uva.onlinejudge.org/external/{0}/{1}.pdf"\
+    url = client.get_baseurl() + "external/{0}/{1}.pdf"\
             .format(int(args[0]) / 100, args[0])
     resp = requests.get(url, stream=True)
     with open(args[0] + ".pdf", "wb") as f:
@@ -43,10 +43,15 @@ def print_commands():
           print "\t" + name + " - " + commands[name].h
 
 def leaderboard_command(client, args):
-    client.leaderboard(*args)
+    resp = client.leaderboard(*args)
+    print "Problem " + str(args[0]) + ": " + client.get_problem_name(args[0])
+    for i in resp:
+        print "Rank: " + str(i['rank'])  + " User: " + i['uname']
 
 def user_submissions_problem(client, args):
-    client.user_submissions_problem(args[0], args[1])
+    resp = client.user_submissions_problem(args[0], args[1])
+    for i in resp:
+        print "Submission ID: %-12s Verdict: %-20s Runtime: %-11s Language Used: %-10s"  % (i["submission_id"], i["verdict"], i["runtime"], i["language"])
 
 if __name__ == "__main__":
     commands = {
