@@ -8,7 +8,7 @@ uva_headers = {
 }
 
 
-headers = {
+udebug_headers = {
     'Accept-Charset': 'utf-8,ISO-8859-1',
     'Accept-Language': 'en-US,en;q=0.8',
     'User-Agent' :  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) "+
