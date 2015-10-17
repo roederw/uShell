@@ -13,10 +13,9 @@ class command():
         self.func(*args)
 
 def sub_command(client, args):
-    if (len(args) > 0):
-        client.submissions(args[0])
-    else:
-        client.submissions()
+    resp = client.submissions(*args)
+    for i in resp:
+        print i["problem"]["title"] + " - " + i["verdict"] + " - " + i["runtime"]
 
 def submit_command(client, args):
     print "Logging in..."
@@ -44,7 +43,7 @@ def print_commands():
           print "\t" + name + " - " + commands[name].h
 
 def leaderboard_command(client, args):
-    client.leaderboard(args[0])
+    client.leaderboard(*args)
 
 def user_submissions_problem(client, args):
     client.user_submissions_problem(args[0], args[1])
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     commands = {
         "help": command(help_command, ""),
         "subs": command(sub_command, "Usage: uva subs [n]"),
-        "submit": command(submit_command, "Usage: uva submit <problem_number> <language_option> <source_file>"),
+        "submit": command(submit_command, "Usage: uva submit <problem_number> <source_file> [language code]"),
         "display": command(display_command, "Usage: uva display <problem_number>"),
         "leaderboard": command(leaderboard_command, "Usage: leaderboard <problem_number>"),
         "userdata": command(user_submissions_problem, "Usage: userdata <user> <problem_number>")

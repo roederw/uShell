@@ -73,10 +73,7 @@ class uvaclient:
         self._post(SUBMIT_URL, data, {"Referer": SUBMIT_URL})
 
     def submissions(self, n = 3):
-        resp = api.submissions(self.uid, n)
-
-        for i in resp:
-            print i["problem"]["title"] + " - " + i["verdict"] + " - " + i["runtime"]
+        return api.submissions(self.uid, n)
 
     def leaderboard(self, problem_number, n = 10):
         print "Problem " + str(problem_number) + ": " + api.get_problem_name(problem_number)
