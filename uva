@@ -55,16 +55,18 @@ def user_submissions_problem_command(client, args):
 
 def testcases_command(client, args):
     resp = client.testcases(args[0])
-    if (resp == ""):
+    if (resp[0] == ""):
         print "There were no pre-generated test cases available :("
     else :
-        print "Testing your solution!"
-        f = open("input", 'w')
-        f.write(resp)
+        f = open(args[0] + ".test", 'w')
+        f.write(resp[0])
         f.close()
-        os.system("/usr/local/bin/g++-5 -std=c++11 " + args[1])
-        os.system("./a.out < input")
-        os.remove("input")
+
+        f = open(args[0] + ".answer", "w")
+        f.write(resp[1])
+        f.close()
+        print "Test cases saved to " + args[0] + ".test"
+        print "Excepted output saved to " + args[0] + ".answer"
 
 if __name__ == "__main__":
     commands = {

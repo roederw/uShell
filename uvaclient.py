@@ -3,11 +3,11 @@ from bs4 import BeautifulSoup
 import getpass
 import settings
 import uvaapi as api
+import udebug
 
 BASE_URL   = "https://uva.onlinejudge.org/"
-LOGIN_URL  = "https://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login"
+LOGIN_URL  = BASE_URL + "index.php?option=com_comprofiler&task=login"
 SUBMIT_URL = BASE_URL + "index.php?option=com_onlinejudge&Itemid=25&page=save_submission"
-API_URL    = "http://uhunt.felix-halim.net/api/"
 
 def get_headers():
     headers = {
@@ -88,4 +88,4 @@ class uvaclient:
         return api.user_submissions_problem(user, problem_number)
 
     def testcases(self, problem_num):
-        return api.testcases(problem_num)
+        return udebug.testcases(problem_num)
