@@ -83,3 +83,8 @@ class uvaclient:
         resp = api.leaderboard(problem_number, 10)
         for i in resp:
             print "Rank: " + str(i['rank'])  + " User: " + i['uname'] 
+
+    def user_submissions_problem(self, user, problem_number):
+        resp = api.user_submissions_problem(user, problem_number)
+        for i in resp:
+            print "Submission ID: %-12s Verdict: %-20s Runtime: %-11s Language Used: %-10s" % (i["submission_id"], i["verdict"], i["runtime"], i["language"])
