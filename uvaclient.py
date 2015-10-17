@@ -32,15 +32,16 @@ class uvaclient:
     # an option for adding custom headers or overwriting defaults
     def _post(self, url, data, custom_headers=None, redirects=True):
         custom_headers = custom_headers or {}
-        headers = utils.merge_dicts(headers.uva_headers, custom_headers)
+        h = utils.merge_dicts(headers.uva_headers, custom_headers)
 
-        return self.session.post(url, data=data, headers=headers, allow_redirects=redirects)
+        return self.session.post(url, data=data, headers=h,
+                allow_redirects=redirects)
 
     def _get(self, url, custom_headers=None, redirects=True):
         custom_headers = custom_headers or {}
-        headers = utils.merge_dicts(headers.uva_headers, custom_headers)
+        h = utils.merge_dicts(headers.uva_headers, custom_headers)
 
-        return self.session.get(url, headers=headers, allow_redirects=redirects)
+        return self.session.get(url, headers=h, allow_redirects=redirects)
 
     # Query the homepage for login tokens and fill in username and password
     # UVa generates some random token for security so we need to load the page
