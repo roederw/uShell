@@ -20,6 +20,12 @@ problems = fetch_problems()
 def get_uid(username):
     return api_get("uname2uid/" + username)
 
+def get_pid(problem_num):
+    return json.loads(api_get("p/num/" + problem_num))['pid']
+
+def get_problem_name(problem_num):
+    return json.loads(api_get("p/num/" + problem_num))['title']
+
 def _clean_sub(sub):
     verdicts = {
         0  : "Compiling",
@@ -45,6 +51,11 @@ def _clean_sub(sub):
     return cleaned
 
 def submissions(uid, n):
-    subs = reversed(json.loads(api_get("subs-user-last/"+uid+"/"+str(n)))["subs"])
+    subs = reversed(json.loads(api_get("subs-user-last/" + uid + "/"+str(n)))["subs"])
 
     return map(_clean_sub, subs)
+
+def leaderboard(problem_num, n):
+    leaders = json.loads(api_get("p/rank/" + str(get_pid(problem_num)) + "/1/10"))
+    return leaders
+

@@ -77,3 +77,9 @@ class uvaclient:
 
         for i in resp:
             print i["problem"]["title"] + " - " + i["verdict"] + " - " + i["runtime"]
+
+    def leaderboard(self, problem_number):
+        print "Problem " + str(problem_number) + ": " + api.get_problem_name(problem_number) 
+        resp = api.leaderboard(problem_number, 10)
+        for i in resp:
+            print "Rank: " + str(i['rank'])  + " User: " + i['uname'] 

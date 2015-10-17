@@ -34,18 +34,25 @@ def display_command(client, args):
             f.write(block)
     os.system("open " + args[0] + ".pdf")
 
-def print_commands(client, args):
+def help_command(client, args):
+    print_commands()
+
+def print_commands():
     print "Commands:"
     for name in commands.keys():
         if (name != "help"):
-            print "\t" + name + " - " + commands[name].h
+          print "\t" + name + " - " + commands[name].h
+
+def leaderboard_command(client, args):
+    client.leaderboard(args[0])
 
 if __name__ == "__main__":
     commands = {
-        "help": command(print_commands, ""),
+        "help": command(help_command, ""),
         "subs": command(sub_command, "Usage: uva subs [n]"),
         "submit": command(submit_command, "Usage: uva submit <problem_number> <language_option> <source_file>"),
-        "display": command(display_command, "Usage: uva display <problem_number>")   
+        "display": command(display_command, "Usage: uva display <problem_number>"), 
+        "leaderboard": command(leaderboard_command, "Usage: leaderboard <problem_number>")
     }
 
     if len(sys.argv) == 1:
