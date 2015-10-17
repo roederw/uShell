@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+from urllib import urlopen
 import requests
 import json
 import jsoncache
@@ -5,6 +7,9 @@ import jsoncache
 
 def api_get(endpoint):
     return requests.get("http://uhunt.felix-halim.net/api/" + endpoint).text.strip()
+
+def get_testcases(endpoint):
+    return requests.get("http://www.udebug.com/get-random-critical-input/random/" + endpoint).text.strip()
 
 def fetch_problems():
     if not jsoncache.get("problems"):
@@ -25,6 +30,12 @@ def get_pid(problem_num):
 
 def get_problem_name(problem_num):
     return json.loads(api_get("p/num/" + problem_num))['title']
+
+def get_problem_nid(problem_num):
+    url = "http://www.udebug.com/UVa/" + problem_num
+    html = urlopen(url).read()
+    soup = BeautifulSoup(html, "html.parser")
+    return soup.find("input", {"name":"problem_nid"})['value']
 
 def _clean_sub(sub):
     verdicts = {
@@ -72,3 +83,7 @@ def user_submissions_problem(user, problem_num):
     uid = get_uid(user)
     subs = reversed(json.loads(api_get("subs-pids/" + uid + "/" + str(get_pid(problem_num)) + "/0"))[uid]["subs"])
     return map(_clean_sub, subs)
+
+def testcases(problem_num):
+    test_cases = json.loads(get_testcases(get_problem_nid(problem_num)))
+    return test_cases;

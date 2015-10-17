@@ -48,10 +48,23 @@ def leaderboard_command(client, args):
     for i in resp:
         print "Rank: " + str(i['rank'])  + " User: " + i['uname']
 
-def user_submissions_problem(client, args):
+def user_submissions_problem_command(client, args):
     resp = client.user_submissions_problem(args[0], args[1])
     for i in resp:
         print "Submission ID: %-12s Verdict: %-20s Runtime: %-11s Language Used: %-10s"  % (i["submission_id"], i["verdict"], i["runtime"], i["language"])
+
+def testcases_command(client, args):
+    resp = client.testcases(args[0])
+    if (resp == ""):
+        print "There were no pre-generated test cases available :("
+    else :
+        print "Testing your solution!"
+        f = open("input", 'w')
+        f.write(resp)
+        f.close()
+        os.system("/usr/local/bin/g++-5 -std=c++11 " + args[1])
+        os.system("./a.out < input")
+        os.remove("input")
 
 if __name__ == "__main__":
     commands = {
@@ -60,7 +73,8 @@ if __name__ == "__main__":
         "submit": command(submit_command, "Usage: uva submit <problem_number> <source_file> [language code]"),
         "display": command(display_command, "Usage: uva display <problem_number>"),
         "leaderboard": command(leaderboard_command, "Usage: leaderboard <problem_number>"),
-        "userdata": command(user_submissions_problem, "Usage: userdata <user> <problem_number>")
+        "userdata": command(user_submissions_problem_command, "Usage: userdata <user> <problem_number>"),
+        "test": command(testcases_command, "Usage: test <problem_num> <source_file>") # only c++11 is supported atm
     }
 
     if len(sys.argv) == 1:

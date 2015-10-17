@@ -86,3 +86,6 @@ class uvaclient:
 
     def user_submissions_problem(self, user, problem_number):
         return api.user_submissions_problem(user, problem_number)
+
+    def testcases(self, problem_num):
+        return api.testcases(problem_num)
