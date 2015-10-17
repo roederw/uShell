@@ -3,6 +3,7 @@ from uvaclient import uvaclient
 import sys
 import requests
 import os
+import utils
 
 class command():
     def __init__(self, func, h):
@@ -58,13 +59,8 @@ def testcases_command(client, args):
     if (resp[0] == ""):
         print "There were no pre-generated test cases available :("
     else :
-        f = open(args[0] + ".test", 'w')
-        f.write(resp[0])
-        f.close()
-
-        f = open(args[0] + ".answer", "w")
-        f.write(resp[1])
-        f.close()
+        utils.write_file(args[0] + ".test", resp[0])
+        utils.write_file(args[0] + ".answer", resp[1])
         print "Test cases saved to " + args[0] + ".test"
         print "Excepted output saved to " + args[0] + ".answer"
 
@@ -74,9 +70,9 @@ if __name__ == "__main__":
         "subs": command(sub_command, "Usage: uva subs [n]"),
         "submit": command(submit_command, "Usage: uva submit <problem_number> <source_file> [language code]"),
         "display": command(display_command, "Usage: uva display <problem_number>"),
-        "leaderboard": command(leaderboard_command, "Usage: leaderboard <problem_number>"),
-        "userdata": command(user_submissions_problem_command, "Usage: userdata <user> <problem_number>"),
-        "test": command(testcases_command, "Usage: test <problem_num> <source_file>") # only c++11 is supported atm
+        "leaderboard": command(leaderboard_command, "Usage: uva leaderboard <problem_number>"),
+        "userdata": command(user_submissions_problem_command, "Usage: uva userdata <user> <problem_number>"),
+        "test": command(testcases_command, "Usage: uva test <problem_num>")
     }
 
     if len(sys.argv) == 1:

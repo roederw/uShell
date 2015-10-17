@@ -5,15 +5,11 @@ import settings
 import uvaapi as api
 import udebug
 import headers
+import utils
 
 BASE_URL   = "https://uva.onlinejudge.org/"
 LOGIN_URL  = BASE_URL + "index.php?option=com_comprofiler&task=login"
 SUBMIT_URL = BASE_URL + "index.php?option=com_onlinejudge&Itemid=25&page=save_submission"
-
-def merge_dicts(d1, d2):
-    for k in d2.keys():
-        d1[k] = d2[k]
-    return d1
 
 class uvaclient:
     def __init__(self):
@@ -26,13 +22,13 @@ class uvaclient:
 
     def _post(self, url, data, custom_headers=None, redirects=True):
         custom_headers = custom_headers or {}
-        headers = merge_dicts(headers.uva_headers, custom_headers)
+        headers = utils.merge_dicts(headers.uva_headers, custom_headers)
 
         return self.session.post(url, data=data, headers=headers, allow_redirects=redirects)
 
     def _get(self, url, custom_headers=None, redirects=True):
         custom_headers = custom_headers or {}
-        headers = merge_dicts(headers.uva_headers, custom_headers)
+        headers = utils.merge_dicts(headers.uva_headers, custom_headers)
 
         return self.session.get(url, headers=headers, allow_redirects=redirects)
 
