@@ -1,3 +1,10 @@
+'''
+
+Headers to be used when making requests.
+Reduces the chance of the user of this tool being IP banned
+
+'''
+
 uva_headers = {
     'Accept-Charset': 'utf-8,ISO-8859-1',
     'Accept-Language': 'en-US,en;q=0.8',
@@ -16,4 +23,3 @@ udebug_headers = {
                     "Chrome/24.0.1312.57 Safari/537.17",
     "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
 }
-

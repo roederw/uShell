@@ -4,10 +4,18 @@ import requests
 import json
 import jsoncache
 
+'''
 
+A wrapper for functions which interface with www.uhunt.felix-halim.net/api
+
+'''
+
+# Make a get request to a given endpoint in the API
 def api_get(endpoint):
     return requests.get("http://uhunt.felix-halim.net/api/" + endpoint).text.strip()
 
+# Build a problem dictionary, will only actually make request once
+# every 24 hours
 def fetch_problems():
     if not jsoncache.get("problems"):
         p = json.loads(api_get("p"))
@@ -19,15 +27,18 @@ def fetch_problems():
 
 problems = fetch_problems()
 
+# Convert a UVa username to a uid (needed for other endpoints)
 def get_uid(username):
     return api_get("uname2uid/" + username)
 
+# Convert a Uva problem number to a pid (needed for other endpoints)
 def get_pid(problem_num):
     return json.loads(api_get("p/num/" + problem_num))['pid']
 
 def get_problem_name(problem_num):
     return json.loads(api_get("p/num/" + problem_num))['title']
 
+# Takes a submission and converts it to a readable format
 def _clean_sub(sub):
     verdicts = {
         0  : "Compiling",
@@ -62,6 +73,7 @@ def _clean_sub(sub):
     }
     return cleaned
 
+# Retrieves the last n submissions for a given user
 def submissions(uid, n):
     subs = reversed(json.loads(api_get("subs-user-last/" + uid + "/"+str(n)))["subs"])
     return map(_clean_sub, subs)

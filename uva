@@ -5,6 +5,13 @@ import requests
 import os
 import utils
 
+'''
+
+The main driver for the commandline interface
+
+'''
+
+# Each command consists of a function and a help/usage string
 class command():
     def __init__(self, func, h):
         self.func = func
@@ -13,11 +20,13 @@ class command():
     def __call__(self, *args):
         self.func(*args)
 
+# List the last n user submissions
 def sub_command(client, args):
     resp = client.submissions(*args)
     for i in resp:
         print i["problem"]["title"] + " - " + i["verdict"] + " - " + i["runtime"]
 
+# Submit a problem for judging
 def submit_command(client, args):
     print "Logging in..."
     client.login()
@@ -25,6 +34,7 @@ def submit_command(client, args):
     client.submit(*args)
     print "Done!"
 
+# Download and open the PDF problem statement for a given problem
 def display_command(client, args):
     url = client.get_baseurl() + "external/{0}/{1}.pdf"\
             .format(int(args[0]) / 100, args[0])
@@ -34,6 +44,7 @@ def display_command(client, args):
             f.write(block)
     os.system("open " + args[0] + ".pdf")
 
+# Show the help text for each command
 def help_command(client, args):
     print_commands()
 
@@ -43,17 +54,20 @@ def print_commands():
         if (name != "help"):
           print "\t" + name + " - " + commands[name].h
 
+# View the leaderboard for a given problem
 def leaderboard_command(client, args):
     resp = client.leaderboard(*args)
     print "Problem " + str(args[0]) + ": " + client.get_problem_name(args[0])
     for i in resp:
         print "Rank: " + str(i['rank'])  + " User: " + i['uname']
 
+# View a given users submissions for a problem
 def user_submissions_problem_command(client, args):
     resp = client.user_submissions_problem(args[0], args[1])
     for i in resp:
         print "Submission ID: %-12s Verdict: %-20s Runtime: %-11s Language Used: %-10s"  % (i["submission_id"], i["verdict"], i["runtime"], i["language"])
 
+# Get the test cases and expected output for a problem from udebug
 def testcases_command(client, args):
     resp = client.testcases(args[0])
     if (resp[0] == ""):
