@@ -62,10 +62,14 @@ def leaderboard_command(client, args):
         print "Rank: " + str(i['rank'])  + " User: " + i['uname']
 
 # View a given users submissions for a problem
-def user_submissions_problem_command(client, args):
-    resp = client.user_submissions_problem(args[0], args[1])
+def user_submissions_command(client, args):
+    if (len(args) > 1):
+        resp = client.user_submissions_problem(args[0], args[1])
+    elif (len(args) == 1):
+        resp = client.user_submissions(args[0])
+
     for i in resp:
-        print "Submission ID: %-12s Verdict: %-20s Runtime: %-11s Language Used: %-10s"  % (i["submission_id"], i["verdict"], i["runtime"], i["language"])
+        print "Problem: %-16s    Verdict: %-16s  Runtime: %-8s Language Used: %-10s"  % (i["problem"]['title'], i["verdict"], i["runtime"], i["language"])
 
 # Get the test cases and expected output for a problem from udebug
 def testcases_command(client, args):
@@ -81,11 +85,11 @@ def testcases_command(client, args):
 if __name__ == "__main__":
     commands = {
         "help": command(help_command, ""),
-        "subs": command(sub_command, "Usage: uva subs [n]"),
+        "submissions": command(sub_command, "Usage: uva submissions [n]"),
         "submit": command(submit_command, "Usage: uva submit <problem_number> <source_file> [language code]"),
         "display": command(display_command, "Usage: uva display <problem_number>"),
         "leaderboard": command(leaderboard_command, "Usage: uva leaderboard <problem_number>"),
-        "userdata": command(user_submissions_problem_command, "Usage: uva userdata <user> <problem_number>"),
+        "userdata": command(user_submissions_command, "Usage: uva userdata <user> [problem_num]"),
         "test": command(testcases_command, "Usage: uva test <problem_num>")
     }
 

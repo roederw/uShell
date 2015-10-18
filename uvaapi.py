@@ -82,6 +82,11 @@ def leaderboard(problem_num, n):
     leaders = json.loads(api_get("p/rank/" + str(get_pid(problem_num)) + "/1/10"))
     return leaders
 
+def user_submissions(user, n = 10):
+    uid = get_uid(user)
+    subs = reversed(json.loads(api_get("subs-user-last/" + uid + "/" + str(n)))["subs"])
+    return map(_clean_sub, subs)
+
 def user_submissions_problem(user, problem_num):
     uid = get_uid(user)
     subs = reversed(json.loads(api_get("subs-pids/" + uid + "/" + str(get_pid(problem_num)) + "/0"))[uid]["subs"])
