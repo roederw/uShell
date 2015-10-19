@@ -79,7 +79,7 @@ def submissions(uid, n):
     return map(_clean_sub, subs)
 
 def leaderboard(problem_num, n):
-    leaders = json.loads(api_get("p/rank/" + str(get_pid(problem_num)) + "/1/10"))
+    leaders = json.loads(api_get("p/rank/" + str(get_pid(problem_num)) + "/1/" + str(n)))
     return leaders
 
 def user_submissions(user, n = 10):

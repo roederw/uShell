@@ -59,7 +59,7 @@ def leaderboard_command(client, args):
     resp = client.leaderboard(*args)
     print "Problem " + str(args[0]) + ": " + client.get_problem_name(args[0])
     for i in resp:
-        print "Rank: " + str(i['rank'])  + " User: " + i['uname']
+        print "Rank: " + str(i['rank'])  + " User: " + i['uname'] + " Runtime: " + str(i['run']) + "ms"
 
 # View a given users submissions for a problem
 def user_submissions_command(client, args):
