@@ -24,7 +24,7 @@ class command():
 def sub_command(client, args):
     resp = client.submissions(*args)
     for i in resp:
-        print i["problem"]["title"] + " - " + i["verdict"] + " - " + i["runtime"]
+        print "Problem: %-16s    Verdict: %-16s  Runtime: %-8s Language Used: %-10s"  % (i["problem"]['title'], i["verdict"], i["runtime"], i["language"])
 
 # Submit a problem for judging
 def submit_command(client, args):
