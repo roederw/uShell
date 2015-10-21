@@ -3,6 +3,7 @@ from urllib import urlopen
 import requests
 import json
 import jsoncache
+import constants
 
 '''
 
@@ -40,35 +41,11 @@ def get_problem_name(problem_num):
 
 # Takes a submission and converts it to a readable format
 def _clean_sub(sub):
-    verdicts = {
-        0  : "Pending",
-        10 : "Submission error",
-        15 : "Can't be judged",
-        20 : "In queue",
-        30 : "Compile error",
-        35 : "Restricted function",
-        40 : "Runtime error",
-        45 : "Output limit",
-        50 : "Time limit",
-        60 : "Memory limit",
-        70 : "Wrong answer",
-        80 : "Presentation Error",
-        90 : "Accepted",
-    }
-
-    language = {
-        1 : "ANSI C",
-        2 : "Java",
-        3 : "C++",
-        4 : "Pascal",
-        5 : "C++11"
-    }
-
     cleaned = {
         "problem": problems[str(sub[1])],
-        "verdict": verdicts[sub[2]],
+        "verdict": constants.verdicts[sub[2]],
         "runtime": str(sub[3]) + "ms",
-        "language": language[sub[5]],
+        "language": constants.language[sub[5]],
         "submission_id": sub[0]
     }
     return cleaned

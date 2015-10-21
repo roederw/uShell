@@ -1,7 +1,7 @@
 import requests
 import json
 from bs4 import BeautifulSoup
-import headers
+import constants
 
 '''
 
@@ -18,7 +18,7 @@ def get_answers(problem_num, form_data, tests):
 
     form_data['input_data'] = tests
     form_data['op'] = "Go!"
-    h = headers.udebug_headers
+    h = constants.udebug_headers
     h["Referer"] =  url
 
     resp = requests.post(url, data=form_data, headers=h)
