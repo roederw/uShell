@@ -1,11 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 import getpass
-import settings
+from uvasettings import uvasettings
 import uvaapi as api
 import udebug
 import headers
 import utils
+
+settings = uvasettings()
 
 '''
 
@@ -22,7 +24,7 @@ class uvaclient:
         # Create a session for making requests
         # Nessesary to persist login information
         self.session = requests.Session()
-        self.username = settings.username
+        self.username = settings['username']
         self.uid = api.get_uid(self.username)
 
     def prompt_password(self):
@@ -71,8 +73,7 @@ class uvaclient:
 
     # Submits a problem with the given parameters
     # Must be logged in for this to work
-    # see settings.py for a list of language codes
-    def submit(self, problemid, f, language = settings.language):
+    def submit(self, problemid, f, language = settings['language']):
         data = {
             "localid":   problemid,
             "code":      open(f, "r").read(),
