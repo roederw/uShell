@@ -63,11 +63,7 @@ def leaderboard_command(client, args):
 
 # View a given users submissions for a problem
 def user_submissions_command(client, args):
-    if (len(args) > 1):
-        resp = client.user_submissions_problem(args[0], args[1])
-    elif (len(args) == 1):
-        resp = client.user_submissions(args[0])
-
+    resp = client.user_submissions(*args)
     for i in resp:
         print "Problem: %-16s    Verdict: %-16s  Runtime: %-8s Language Used: %-10s"  % (i["problem"]['title'], i["verdict"], i["runtime"], i["language"])
 
@@ -89,7 +85,7 @@ if __name__ == "__main__":
         "submit": command(submit_command, "Usage: uva submit <problem_number> <source_file> [language code]"),
         "display": command(display_command, "Usage: uva display <problem_number>"),
         "leaderboard": command(leaderboard_command, "Usage: uva leaderboard <problem_number>"),
-        "userdata": command(user_submissions_command, "Usage: uva userdata <user> [problem_num]"),
+        "userdata": command(user_submissions_command, "Usage: uva userdata <user> [n]"),
         "test": command(testcases_command, "Usage: uva test <problem_num>")
     }
 

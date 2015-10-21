@@ -90,8 +90,8 @@ class uvaclient:
     def leaderboard(self, problem_number, n = 10):
         return api.leaderboard(problem_number, n)
 
-    def user_submissions(self, user):
-        return api.user_submissions(user)
+    def user_submissions(self, user, n = 10):
+        return api.user_submissions(user, n)
 
     def user_submissions_problem(self, user, problem_number):
         return api.user_submissions_problem(user, problem_number)

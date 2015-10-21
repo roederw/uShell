@@ -41,7 +41,7 @@ def get_problem_name(problem_num):
 # Takes a submission and converts it to a readable format
 def _clean_sub(sub):
     verdicts = {
-        0  : "Compiling",
+        0  : "Pending",
         10 : "Submission error",
         15 : "Can't be judged",
         20 : "In queue",
