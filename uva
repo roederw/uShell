@@ -86,7 +86,7 @@ def username_command(client, args):
     if (len(args) > 0):
         client.change_username(*args)
     else:
-        print client.get_language(*args)
+        print client.get_username(*args)
 
 def language_command(client, args):
     if (len(args) > 0):
