@@ -36,13 +36,17 @@ def submit_command(client, args):
 
 # Download and open the PDF problem statement for a given problem
 def display_command(client, args):
-    url = client.get_baseurl() + "external/{0}/{1}.pdf"\
-            .format(int(args[0]) / 100, args[0])
-    resp = requests.get(url, stream=True)
-    with open(args[0] + ".pdf", "wb") as f:
-        for block in resp.iter_content(1024):
-            f.write(block)
-    os.system("open " + args[0] + ".pdf")
+    if (unicode(args[0]).isnumeric() == False):
+            print "Invalid problem number"
+    else:
+        if (os.path.isfile(args[0] + ".pdf") == False):
+            url = client.get_baseurl() + "external/{0}/{1}.pdf"\
+                    .format(int(args[0]) / 100, args[0])
+            resp = requests.get(url, stream=True)
+            with open(args[0] + ".pdf", "wb") as f:
+                for block in resp.iter_content(1024):
+                    f.write(block)
+        os.system("open " + args[0] + ".pdf")
 
 # Show the help text for each command
 def help_command(client, args):
@@ -95,7 +99,7 @@ if __name__ == "__main__":
         "help": command(help_command, ""),
         "submissions": command(sub_command, "Usage: uva submissions [n]"),
         "submit": command(submit_command, "Usage: uva submit <problem_number> <source_file> [language code]"),
-        "display": command(display_command, "Usage: uva display <problem_number>"),
+        "view": command(display_command, "Usage: uva view <problem_number>"),
         "leaderboard": command(leaderboard_command, "Usage: uva leaderboard <problem_number>"),
         "userdata": command(user_submissions_command, "Usage: uva userdata <user> [n]"),
         "test": command(testcases_command, "Usage: uva test <problem_num>"),

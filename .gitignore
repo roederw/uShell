@@ -1,3 +1,6 @@
-*.py.swp
+*.pdf
+*.answer
+*.test
+*.swp
 *.pyc
 cache/*.json
