@@ -78,6 +78,18 @@ def testcases_command(client, args):
         print "Test cases saved to " + args[0] + ".test"
         print "Excepted output saved to " + args[0] + ".answer"
 
+def username_command(client, args):
+    if (len(args) > 0):
+        client.change_username(*args)
+    else:
+        print client.get_language(*args)
+
+def language_command(client, args):
+    if (len(args) > 0):
+        client.change_language(*args)
+    else:
+        print client.get_language(*args)
+
 if __name__ == "__main__":
     commands = {
         "help": command(help_command, ""),
@@ -86,7 +98,9 @@ if __name__ == "__main__":
         "display": command(display_command, "Usage: uva display <problem_number>"),
         "leaderboard": command(leaderboard_command, "Usage: uva leaderboard <problem_number>"),
         "userdata": command(user_submissions_command, "Usage: uva userdata <user> [n]"),
-        "test": command(testcases_command, "Usage: uva test <problem_num>")
+        "test": command(testcases_command, "Usage: uva test <problem_num>"),
+        "username": command(username_command, "Usage: uva username [new_username]"),
+        "language": command(language_command, "Usage: uva language [new_language]")
     }
 
     if len(sys.argv) == 1:
