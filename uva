@@ -115,7 +115,10 @@ if __name__ == "__main__":
 
     if command in commands:
         u = uvaclient()
-        commands[command](u, sys.argv)
+        try:
+            commands[command](u, sys.argv)
+        except:
+            print commands[command].h
 
     else:
         print_commands()
