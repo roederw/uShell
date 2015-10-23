@@ -35,7 +35,7 @@ def submit_command(client, args):
     print "Done!"
 
 # Download and open the PDF problem statement for a given problem
-def display_command(client, args):
+def view_command(client, args):
     if (unicode(args[0]).isnumeric() == False):
             print "Invalid problem number"
     else:
@@ -99,7 +99,7 @@ if __name__ == "__main__":
         "help": command(help_command, ""),
         "submissions": command(sub_command, "Usage: uva submissions [n]"),
         "submit": command(submit_command, "Usage: uva submit <problem_number> <source_file> [language code]"),
-        "view": command(display_command, "Usage: uva view <problem_number>"),
+        "view": command(view_command, "Usage: uva view <problem_number>"),
         "leaderboard": command(leaderboard_command, "Usage: uva leaderboard <problem_number>"),
         "userdata": command(user_submissions_command, "Usage: uva userdata <user> [n]"),
         "test": command(testcases_command, "Usage: uva test <problem_num>"),

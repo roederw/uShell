@@ -65,7 +65,7 @@ class uvaclient:
             print "Authentication failed"
             if (password_attempts < 4):
                 self.login()
-    
+
     def get_baseurl(self):
             return BASE_URL
 
@@ -100,7 +100,7 @@ class uvaclient:
 
     def testcases(self, problem_num):
         return udebug.testcases(problem_num)
-    
+
     # Calls to utils
     def change_username(self, username):
         utils.set_username(username)
