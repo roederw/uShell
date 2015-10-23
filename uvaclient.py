@@ -61,10 +61,9 @@ class uvaclient:
     def login(self):
         data = self._login_data()
         self._post(LOGIN_URL, data, {'Referer': BASE_URL}, False)
-        if (len(self.session.cookies) == 1):
+        if len(self.session.cookies) == 1:
             print "Authentication failed"
-            if (password_attempts < 4):
-                self.login()
+            self.login()
 
     def get_baseurl(self):
             return BASE_URL

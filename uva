@@ -117,8 +117,9 @@ if __name__ == "__main__":
         u = uvaclient()
         try:
             commands[command](u, sys.argv)
+        except KeyboardInterrupt:
+            pass
         except:
             print commands[command].h
-
     else:
         print_commands()
