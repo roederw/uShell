@@ -1,8 +1,11 @@
 # UVAShell
 
-Avoid UVA's awful website
+A commandline interface for UVa's online judge.
 
 ## How to use
 
-* Fill in settings.py with your data
-* Never load uva again
+* Clone this repository
+* Add it to your PATH
+* Run ``uva``
+* You will be prompted for configuration data (one time only, can change later)
+* Thats it, run ``uva`` for commands and usage 
