@@ -102,13 +102,13 @@ class uvaclient:
 
     # Calls to utils
     def change_username(self, username):
-        utils.set_username(username)
+        settings["username"] = username
 
     def change_language(self, language):
-        utils.set_language(language)
+        settings["language"] = language
 
     def get_username(self):
-        return utils.get_username()
+        return settings['username']
 
     def get_language(self):
-        return constants.language[int(utils.get_language())]
+        return constants.language[int(settings['language'])]
