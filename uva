@@ -73,14 +73,22 @@ def user_submissions_command(client, args):
 
 # Get the test cases and expected output for a problem from udebug
 def testcases_command(client, args):
-    resp = client.testcases(args[0])
-    if (resp[0] == ""):
-        print "There were no pre-generated test cases available :("
-    else :
-        utils.write_file(args[0] + ".test", resp[0])
-        utils.write_file(args[0] + ".answer", resp[1])
-        print "Test cases saved to " + args[0] + ".test"
-        print "Excepted output saved to " + args[0] + ".answer"
+    pnum = args[0]
+    if not os.path.isfile(pnum + ".test") or not os.path.isfile(pnum + ".answer"):
+        resp = client.testcases(pnum)
+        if (resp[0] == ""):
+            print "There were no pre-generated test cases available :("
+        else :
+            utils.write_file(pnum + ".test", resp[0])
+            utils.write_file(pnum + ".answer", resp[1])
+            print "Test cases saved to " + pnum + ".test"
+            print "Excepted output saved to " + pnum + ".answer"
+
+    print "Running tests..."
+    os.system("g++ " + pnum + ".cpp");
+    os.system("./a.out < " + pnum + ".test > " + pnum + ".txt")
+    print "Diff:"
+    os.system("diff " + pnum + ".txt " + pnum + ".answer")
 
 def username_command(client, args):
     if (len(args) > 0):
