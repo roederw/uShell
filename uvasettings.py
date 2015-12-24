@@ -12,7 +12,7 @@ class uvasettings():
             self.d = json.loads(f.read())
         except Exception as e:
             self.d = self.prompt_info()
-            utils.write_file(SETTINGS_PATH, json.dumps(self.d))
+            self.write_out()
 
     def prompt_info(self):
         print "No config file found, creating at: " + SETTINGS_PATH
@@ -29,5 +29,12 @@ class uvasettings():
         }
         return ret;
 
+    def write_out(self):
+        utils.write_file(SETTINGS_PATH, json.dumps(self.d))
+
     def __getitem__(self, i):
         return self.d[i]
+
+    def __setitem__(self, key, value):
+        self.d[key] = value
+        self.write_out()
