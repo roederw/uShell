@@ -52,6 +52,7 @@ def view_command(client, args):
 def help_command(client, args):
     print_commands()
 
+# Print all commands
 def print_commands():
     print "Commands:"
     for name in commands.keys():
@@ -68,34 +69,31 @@ def leaderboard_command(client, args):
 # View a given users submissions for a problem
 def user_submissions_command(client, args):
     resp = client.user_submissions(*args)
-    for i in resp:
-        print "Problem: %-16s    Verdict: %-16s  Runtime: %-8s Language Used: %-10s"  % (i["problem"]['title'], i["verdict"], i["runtime"], i["language"])
+    if (resp[0] == ""):
+        print "No userdata was found for the user: " + args[0]
+    else:    
+        for i in resp:
+            print "Problem: %-16s    Verdict: %-16s  Runtime: %-8s Language Used: %-10s"  % (i["problem"]['title'], i["verdict"], i["runtime"], i["language"])
 
 # Get the test cases and expected output for a problem from udebug
 def testcases_command(client, args):
-    pnum = args[0]
-    if not os.path.isfile(pnum + ".test") or not os.path.isfile(pnum + ".answer"):
-        resp = client.testcases(pnum)
-        if (resp[0] == ""):
-            print "There were no pre-generated test cases available :("
-        else :
-            utils.write_file(pnum + ".test", resp[0])
-            utils.write_file(pnum + ".answer", resp[1])
-            print "Test cases saved to " + pnum + ".test"
-            print "Excepted output saved to " + pnum + ".answer"
+    resp = client.testcases(args[0])
+    if (resp[0] == ""):
+        print "There were no pre-generated test cases available"
+    else :
+        utils.write_file(args[0] + ".test", resp[0])
+        utils.write_file(args[0] + ".answer", resp[1])
+        print "Test cases saved to " + args[0] + ".test"
+        print "Excepted output saved to " + args[0] + ".answer"
 
-    print "Running tests..."
-    os.system("g++ " + pnum + ".cpp");
-    os.system("./a.out < " + pnum + ".test > " + pnum + ".txt")
-    print "Diff:"
-    os.system("diff " + pnum + ".txt " + pnum + ".answer")
-
+# Print username if no new username argument is provided. If provided, your preference will be updated.
 def username_command(client, args):
     if (len(args) > 0):
         client.change_username(*args)
     else:
         print client.get_username(*args)
 
+# Print default language if no new language is provided. If provided, your preference will be updated.
 def language_command(client, args):
     if (len(args) > 0):
         client.change_language(*args)
