@@ -125,7 +125,7 @@ if __name__ == "__main__":
             commands[command](u, sys.argv)
         except KeyboardInterrupt:
             pass
-        except:
+        except Exception as e:
             print commands[command].h
     else:
         print_commands()
