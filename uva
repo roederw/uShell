@@ -20,11 +20,41 @@ class command():
     def __call__(self, *args):
         self.func(*args)
 
+def print_formatted_submissions(submissions):
+    max_title_length = max(
+        len(submission['problem']['title'])
+        for submission in submissions
+    )
+    max_verdict_length = max(
+        len(submission['verdict'])
+        for submission in submissions
+    )
+    max_runtime_length = max(
+        len(submission['runtime'])
+        for submission in submissions
+    )
+    max_language_length = max(
+        len(submission['language'])
+        for submission in submissions
+    )
+
+    format_string = "\t".join([
+        "Problem: {:" + str(max_title_length) + "}",
+        "Verdict: {:" + str(max_verdict_length) + "}",
+        "Runtime: {:" + str(max_runtime_length) + "}",
+        "Language: {:" + str(max_language_length) + "}"
+    ])
+
+    for submission in submissions:
+        print format_string.format(
+                submission['problem']['title'], submission['verdict'],
+                submission['runtime'], submission['language']
+            )
+
 # List the last n user submissions
 def sub_command(client, args):
-    resp = client.submissions(*args)
-    for i in resp:
-        print "Problem: %-16s    Verdict: %-16s  Runtime: %-8s Language Used: %-10s"  % (i["problem"]['title'], i["verdict"], i["runtime"], i["language"])
+    response = client.submissions(*args)
+    print_formatted_submissions(response)
 
 # Submit a problem for judging
 def submit_command(client, args):
@@ -36,10 +66,11 @@ def submit_command(client, args):
 
 # Download and open the PDF problem statement for a given problem
 def view_command(client, args):
-    if (unicode(args[0]).isnumeric() == False):
+    if (not unicode(args[0]).isnumeric()):
             print "Invalid problem number"
     else:
-        if (os.path.isfile(args[0] + ".pdf") == False):
+        if (not os.path.isfile(args[0] + ".pdf")):
+            # TODO make this less ugly
             url = client.get_baseurl() + "external/{0}/{1}.pdf"\
                     .format(int(args[0]) / 100, args[0])
             resp = requests.get(url, stream=True)
@@ -68,12 +99,11 @@ def leaderboard_command(client, args):
 
 # View a given users submissions for a problem
 def user_submissions_command(client, args):
-    resp = client.user_submissions(*args)
-    if (resp[0] == ""):
+    response = client.user_submissions(*args)
+    if len(response) == 0 or response[0] == "":
         print "No userdata was found for the user: " + args[0]
-    else:    
-        for i in resp:
-            print "Problem: %-16s    Verdict: %-16s  Runtime: %-8s Language Used: %-10s"  % (i["problem"]['title'], i["verdict"], i["runtime"], i["language"])
+    else:
+        print_formatted_submissions(response)
 
 # Get the test cases and expected output for a problem from udebug
 def testcases_command(client, args):
